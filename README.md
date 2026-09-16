@@ -102,7 +102,7 @@ SCORM bookmark use, so renumbering the display never disturbs saved progress.
 - **Pitch check** (§4) — match tasks to their NFQ level (practice, not scored)
 - **ECTS calculator** (§5) — live sliders with an animated contact-vs-independent split bar
 - **Workload budget** (§5) — toggle assessment tasks against a 76-hour budget; bar turns red when over
-- **Readiness checklist** (§6) — a conic-gradient readiness ring
+- **Readiness checklist** (§6) — a conic-gradient progress ring (an instance of the generic checklist widget below)
 - **Results dashboard** (§7) — live tiles for sections viewed, reflections written and activities explored
 - **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid (with the Level 8 band marked), alignment triangle, and a side-by-side **NFQ–EQF ladder** highlighting NFQ 8 / EQF 6
 
@@ -120,6 +120,27 @@ The attribute value becomes the `interaction.complete` id, which is what the
 results dashboard, SCORM `suspend_data` and analytics all key on. The list of
 ids the dashboard counts as *explored* lives in `activities` in
 `js/course.config.js`, not in the shell — so swapping widgets is a config edit.
+
+### Widgets available to any course
+
+Three components are carried in the shell but only appear when a course provides
+their markup, so two of them are inert in this course. Each one's markup contract
+is documented at the top of its block in `js/interactions.js`.
+
+- **Checklist with a progress ring** (`[data-checklist]`) — the readiness
+  checklist in Section 6 is an instance of it. Keyed like the other widgets, and
+  the message shown for each score comes from `data-msgs`, so that copy stays in
+  the HTML with the rest of the course text.
+- **Scenario chooser** (`[data-scenario]`) — a situation with several approaches,
+  each with its own trade-off feedback. Deliberately **not scored**: verdicts read
+  *strong choice* / *workable, with trade-offs* / *high risk*, and the event
+  reports how many options the learner opened. Not used in this course.
+- **Side-tab explorer** (`.tabs--side`) — a CSS variant of the tab widget that
+  puts the tab list in a column beside its panel, for labels too long to sit in a
+  row. Same JS and keyboard behaviour. Not used in this course.
+
+Add a widget's id to `activities` in `js/course.config.js` if it should count
+toward *activities explored*.
 
 ### Learner experience
 - Left-hand lesson navigation with live **progress bar** and completed ticks
