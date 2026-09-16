@@ -106,6 +106,21 @@ SCORM bookmark use, so renumbering the display never disturbs saved progress.
 - **Results dashboard** (§7) — live tiles for sections viewed, reflections written and activities explored
 - **Self-building SVG graphics** — annotated descriptor, Bloom's pyramid (with the Level 8 band marked), alignment triangle, and a side-by-side **NFQ–EQF ladder** highlighting NFQ 8 / EQF 6
 
+### Adding a second instance of a widget
+
+The matching exercise and the tab explorer are keyed by their own data
+attribute, so a course can carry several of each without touching the shell:
+
+```html
+<div class="widget match" data-match="bloom">   <!-- emits "bloom-match" -->
+<div class="tabs" data-tabs="nfq">              <!-- emits "nfq-tabs" -->
+```
+
+The attribute value becomes the `interaction.complete` id, which is what the
+results dashboard, SCORM `suspend_data` and analytics all key on. The list of
+ids the dashboard counts as *explored* lives in `activities` in
+`js/course.config.js`, not in the shell — so swapping widgets is a config edit.
+
 ### Learner experience
 - Left-hand lesson navigation with live **progress bar** and completed ticks
 - **Scroll-reveal** entrances, **count-ups**, and **micro-interactions** — all disabled under `prefers-reduced-motion`
@@ -284,7 +299,7 @@ an LMS file area, a shared drive, etc.).
 ├── imsmanifest.xml            # SCORM 1.2 package manifest (single SCO)
 ├── css/styles.css             # SETU design tokens, layout, components, animations
 ├── js/
-│   ├── course.config.js       # per-course identity (title, slug, institution, storeKey, pass mark)
+│   ├── course.config.js       # per-course identity (title, slug, institution, storeKey, pass mark, activities)
 │   ├── core.js                # state store and the event bus (foundation)
 │   ├── scorm.js               # SCORM 1.2 adapter (+ ?scorm=mock test harness)
 │   ├── analytics.js           # dev event inspector + optional endpoint sink
